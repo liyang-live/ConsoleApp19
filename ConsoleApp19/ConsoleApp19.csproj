@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -31,8 +31,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MicroNet-HIS\MicroNet.HIS\DLL\NetHttp\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MicroNet-HIS\MicroNet.HIS\DLL\NetHttp\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MicroNet-HIS\MicroNet.HIS\DLL\NetHttp\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,8 +55,127 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\FilterAttributes\ApiActionFilterAttribute.cs" />
+    <Compile Include="Attributes\FormFieldAttribute.cs" />
+    <Compile Include="Attributes\HeaderAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\ApiActionAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\BasicAuthAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\HttpDeleteAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\HttpGetAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\HttpHeadAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\HttpHostAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\HttpMethodAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\HttpOptionsAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\HttpPostAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\HttpPutAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\ProxyAttribute.cs" />
+    <Compile Include="Attributes\HttpActionAttributes\TimeoutAttribute.cs" />
+    <Compile Include="Attributes\MulitpartTextAttribute.cs" />
+    <Compile Include="Attributes\ParameterAttributes\FormContentAttribute.cs" />
+    <Compile Include="Attributes\ParameterAttributes\HeadersAttribute.cs" />
+    <Compile Include="Attributes\ParameterAttributes\HttpContentAttribute.cs" />
+    <Compile Include="Attributes\ParameterAttributes\JsonContentAttribute.cs" />
+    <Compile Include="Attributes\ParameterAttributes\MulitpartContentAttribute.cs" />
+    <Compile Include="Attributes\ParameterAttributes\PathQueryAttribute.cs" />
+    <Compile Include="Attributes\ParameterAttributes\UrlAttribute.cs" />
+    <Compile Include="Attributes\ParameterAttributes\XmlContentAttribute.cs" />
+    <Compile Include="Attributes\ReturnAttributes\ApiReturnAttribute.cs" />
+    <Compile Include="Attributes\ReturnAttributes\AutoReturnAttribute.cs" />
+    <Compile Include="Attributes\ReturnAttributes\JsonReturnAttribute.cs" />
+    <Compile Include="Attributes\ReturnAttributes\XmlReturnAttribute.cs" />
+    <Compile Include="Contexts\ApiActionContext.cs" />
+    <Compile Include="Contexts\ApiActionDescriptor.cs" />
+    <Compile Include="Contexts\ApiParameterDescriptor.cs" />
+    <Compile Include="Contexts\ApiReturnDescriptor.cs" />
+    <Compile Include="DataAnnotations\AliasAsAttribute.cs" />
+    <Compile Include="DataAnnotations\DataAnnotationAttribute.cs" />
+    <Compile Include="DataAnnotations\DateTimeFormatAttribute.cs" />
+    <Compile Include="DataAnnotations\FormatScope.cs" />
+    <Compile Include="DataAnnotations\IgnoreSerializedAttribute.cs" />
+    <Compile Include="DataAnnotations\IgnoreWhenNullAttribute.cs" />
+    <Compile Include="DateTimeFormats.cs" />
+    <Compile Include="Defaults\ApiInterceptor.cs" />
+    <Compile Include="Defaults\HttpClient.cs" />
+    <Compile Include="Defaults\HttpHandler.cs" />
+    <Compile Include="Defaults\Internal\DefaultHttpClientHandler.Net45.cs" />
+    <Compile Include="Defaults\Internal\HttpHandlerOfHttpClientHandler.cs" />
+    <Compile Include="Defaults\JsonFormatter.cs" />
+    <Compile Include="Defaults\KeyValueFormats\ConvertContext.cs" />
+    <Compile Include="Defaults\KeyValueFormats\ConverterBase.cs" />
+    <Compile Include="Defaults\KeyValueFormats\Converters\DynamicObjectConverter.cs" />
+    <Compile Include="Defaults\KeyValueFormats\Converters\EnumerableConverter.cs" />
+    <Compile Include="Defaults\KeyValueFormats\Converters\KeyValuePairConverter.cs" />
+    <Compile Include="Defaults\KeyValueFormats\Converters\NullValueConverter.cs" />
+    <Compile Include="Defaults\KeyValueFormats\Converters\PropertiesConverter.cs" />
+    <Compile Include="Defaults\KeyValueFormats\Converters\SimpleTypeConverter.cs" />
+    <Compile Include="Defaults\KeyValueFormats\IConverter.cs" />
+    <Compile Include="Defaults\KeyValueFormatter.cs" />
+    <Compile Include="Defaults\XmlFormatter.cs" />
+    <Compile Include="Exceptions\HttpApiConfigException.cs" />
+    <Compile Include="Exceptions\HttpFailureStatusException.cs" />
+    <Compile Include="Exceptions\ResultNotMatchException.cs" />
+    <Compile Include="FormatOptions.cs" />
+    <Compile Include="GlobalFilterCollection.cs" />
+    <Compile Include="HttpApiClient.cs" />
+    <Compile Include="HttpApiConfig.cs" />
+    <Compile Include="HttpApiRequestMessage.cs" />
+    <Compile Include="HttpProxy.cs" />
+    <Compile Include="IApiActionAttribute.cs" />
+    <Compile Include="IApiActionFilter.cs" />
+    <Compile Include="IApiActionFilterAttribute.cs" />
+    <Compile Include="IApiInterceptor.cs" />
+    <Compile Include="IApiParameterable.cs" />
+    <Compile Include="IApiParameterAttribute.cs" />
+    <Compile Include="IApiReturnAttribute.cs" />
+    <Compile Include="IAttributeMultiplable.cs" />
+    <Compile Include="IHandleTask.cs" />
+    <Compile Include="IHttpApiClient.cs" />
+    <Compile Include="IHttpClient.cs" />
+    <Compile Include="IHttpHandler.cs" />
+    <Compile Include="IJsonFormatter.cs" />
+    <Compile Include="IKeyValueFormatter.cs" />
+    <Compile Include="Internal\ApiDescriptorCache.cs" />
+    <Compile Include="Internal\AsyncRoot.cs" />
+    <Compile Include="Internal\AttributeExtend.cs" />
+    <Compile Include="Internal\ConcurrentCache.cs" />
+    <Compile Include="Internal\HttpApiClientProxy.cs" />
+    <Compile Include="Internal\HttpContents\JsonContent.cs" />
+    <Compile Include="Internal\HttpContents\MulitpartFileContent.cs" />
+    <Compile Include="Internal\HttpContents\MulitpartTextContent.cs" />
+    <Compile Include="Internal\HttpContents\MultipartFormContent.cs" />
+    <Compile Include="Internal\HttpContents\UrlEncodedContent.cs" />
+    <Compile Include="Internal\HttpContents\XmlContent.cs" />
+    <Compile Include="Internal\HttpUtility.cs" />
+    <Compile Include="Internal\ParameterableAttribute.cs" />
+    <Compile Include="Internal\Property.cs" />
+    <Compile Include="Internal\PropertyGetter.cs" />
+    <Compile Include="Internal\PropertySetter.cs" />
+    <Compile Include="Internal\RequestHeader.cs" />
+    <Compile Include="Internal\SocketExtend.cs" />
+    <Compile Include="Internal\TaskObservable.cs" />
+    <Compile Include="Internal\Tasks\ApiHandleTask.cs" />
+    <Compile Include="Internal\Tasks\ApiRetryTask.cs" />
+    <Compile Include="Internal\Tasks\ApiTask.cs" />
+    <Compile Include="Internal\TypeExtend.cs" />
+    <Compile Include="ITask.cs" />
+    <Compile Include="ITaskObservable.cs" />
+    <Compile Include="IUserApi.cs" />
+    <Compile Include="IXmlFormatter.cs" />
+    <Compile Include="Parameterables\Authorization.cs" />
+    <Compile Include="Parameterables\BasicAuth.cs" />
+    <Compile Include="Parameterables\BearerToken.cs" />
+    <Compile Include="Parameterables\FormField.cs" />
+    <Compile Include="Parameterables\MulitpartFile.cs" />
+    <Compile Include="Parameterables\MulitpartText.cs" />
+    <Compile Include="Parameterables\Timeout.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TagItem.cs" />
+    <Compile Include="Tags.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
