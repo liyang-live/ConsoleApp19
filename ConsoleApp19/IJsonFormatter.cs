@@ -13,7 +13,7 @@ namespace WebApiClient
         /// <param name="obj">对象</param>
         /// <param name="options">选项</param>
         /// <returns></returns>
-        string Serialize(object obj, FormatOptions options);
+        string Serialize(object obj);
 
         /// <summary>
         /// 将json文本反序列化对象

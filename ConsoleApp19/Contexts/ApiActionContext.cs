@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace WebApiClient.Contexts
 {
@@ -9,6 +13,11 @@ namespace WebApiClient.Contexts
     /// </summary>
     public class ApiActionContext
     {
+        /// <summary>
+        /// Http客户端
+        /// </summary>
+        public static HttpClient client = new HttpClient();
+
         /// <summary>
         /// 自定义数据的存储和访问容器
         /// </summary>
@@ -91,17 +100,58 @@ namespace WebApiClient.Contexts
         {
             try
             {
-                //var apiAction = this.ApiActionDescriptor;
-                //var client = this.HttpApiConfig.HttpClient;
+                this.ResponseMessage = client.SendAsync(RequestMessage).Result;
 
-                //this.ResponseMessage = client.SendAsync(this.RequestMessage);
-               // this.Result = apiAction.Return.Attribute.GetTaskResult(this);
+                var json = ResponseMessage.Content.ReadAsStringAsync().Result;
+
+                var contentType = new ContentType(ResponseMessage.Content.Headers.ContentType);
+
+                if (ApiActionDescriptor.Return.ReturnType.IsPrimitive || ApiActionDescriptor.Return.ReturnType == typeof(string))
+                {
+                    this.Result = Convert.ChangeType(json, ApiActionDescriptor.Return.ReturnType);
+                }
+                else if (contentType.IsApplicationJson())
+                {
+                    this.Result = JsonConvert.DeserializeObject(json, ApiActionDescriptor.Return.ReturnType);
+                }
+                else if (contentType.IsApplicationXml())
+                {
+                    this.Result = Deserialize(json, ApiActionDescriptor.Return.ReturnType);
+                }
                 return true;
             }
             catch (Exception ex)
             {
                 this.Exception = ex;
                 return false;
+            }
+        }
+
+
+        /// <summary>
+        /// 反序列化xml为对象
+        /// </summary>
+        /// <param name="xml">xml</param>
+        /// <param name="objType">对象类型</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <returns></returns>
+        public virtual object Deserialize(string xml, Type objType)
+        {
+            if (objType == null)
+            {
+                throw new ArgumentNullException(nameof(objType));
+            }
+
+            if (string.IsNullOrEmpty(xml))
+            {
+                return null;
+            }
+
+            var xmlSerializer = new XmlSerializer(objType);
+            using (var reader = new StringReader(xml))
+            {
+                return xmlSerializer.Deserialize(reader);
             }
         }
 
@@ -122,5 +172,64 @@ namespace WebApiClient.Contexts
         //        await funcSelector(filter)(this);
         //    }
         //}
+
+
+        /// <summary>
+        /// 表示回复的ContentType
+        /// </summary>
+        private struct ContentType
+        {
+            /// <summary>
+            /// ContentType内容
+            /// </summary>
+            private readonly string contentType;
+
+            /// <summary>
+            /// 回复的ContentType
+            /// </summary>
+            /// <param name="contentType">ContentType内容</param>
+            public ContentType(MediaTypeHeaderValue contentType)
+            {
+                this.contentType = contentType?.MediaType;
+            }
+
+            public bool IsPrimitive(Type type)
+            {
+                if (type.IsPrimitive || type == typeof(string))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            /// <summary>
+            /// 是否为某个Mime
+            /// </summary>
+            /// <param name="mediaType"></param>
+            /// <returns></returns>
+            public bool Is(string mediaType)
+            {
+                return this.contentType != null && this.contentType.StartsWith(mediaType, StringComparison.OrdinalIgnoreCase);
+            }
+
+            /// <summary>
+            /// 是否为json
+            /// </summary>
+            /// <returns></returns>
+            public bool IsApplicationJson()
+            {
+                return this.Is("application/json") || this.Is("text/json");
+            }
+
+            /// <summary>
+            /// 是否为xml
+            /// </summary>
+            /// <returns></returns>
+            public bool IsApplicationXml()
+            {
+                return this.Is("application/xml") || this.Is("text/xml");
+            }
+        }
     }
+
 }

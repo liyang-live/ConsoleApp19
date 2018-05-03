@@ -40,8 +40,8 @@ namespace WebApiClient.Attributes
         protected override void SetHttpContent(ApiActionContext context, ApiParameterDescriptor parameter)
         {
             var formatter = context.HttpApiConfig.JsonFormatter;
-            var options = context.HttpApiConfig.FormatOptions.CloneChange(this.DateTimeFormat);
-            var json = formatter.Serialize(parameter.Value, options);
+            //var options = context.HttpApiConfig.FormatOptions.CloneChange(this.DateTimeFormat);
+            var json = formatter.Serialize(parameter.Value);
             context.RequestMessage.Content = new JsonContent(json, Encoding.UTF8);
         }
     }

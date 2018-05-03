@@ -7,7 +7,7 @@ namespace WebApiClient
     /// <summary>
     /// 表示Http接口的配置项
     /// </summary>
-    public class HttpApiConfig : IDisposable
+    public class HttpApiConfig 
     {
         /// <summary>
         /// 获取默认xml格式化工具唯一实例
@@ -31,11 +31,6 @@ namespace WebApiClient
         private Tags tags;
 
         /// <summary>
-        /// 与HttpClientHandler实例关联的HttpClient
-        /// </summary>
-        private IHttpClient httpClient;
-
-        /// <summary>
         /// 同步锁
         /// </summary>
         private readonly object syncRoot = new object();
@@ -48,15 +43,6 @@ namespace WebApiClient
         {
             get => this.GetTagsSafeSync();
         }
-
-        ///// <summary>
-        ///// 获取HttpClient实例
-        ///// </summary>
-        ///// <exception cref="ObjectDisposedException"></exception>
-        //public IHttpClient HttpClient
-        //{
-        //    get => this.GetHttpClientSafeSync();
-        //}
 
         /// <summary>
         /// 获取或设置Http服务完整主机域名
@@ -93,35 +79,6 @@ namespace WebApiClient
      //   public GlobalFilterCollection GlobalFilters { get; private set; } = new GlobalFilterCollection();
 
         /// <summary>
-        /// Http接口的配置项   
-        /// </summary>
-        public HttpApiConfig() :
-            this(null)
-        {
-        }
-
-        ///// <summary>
-        ///// Http接口的配置项   
-        ///// </summary>
-        ///// <param name="handler">HTTP消息处理程序</param>
-        ///// <param name="disposeHandler">用Dispose方法时，是否也Dispose handler</param>
-        ///// <exception cref="ArgumentNullException"></exception>
-        ///// <exception cref="ArgumentException"></exception>
-        //public HttpApiConfig(HTTP.HttpMessageHandler handler, bool disposeHandler = false)
-        //    : this(new HttpClient(handler, disposeHandler))
-        //{
-        //}
-
-        /// <summary>
-        /// Http接口的配置项   
-        /// </summary>
-        /// <param name="client">客户端对象</param>
-        public HttpApiConfig(IHttpClient client)
-        {
-            this.httpClient = client;
-        }
-
-        /// <summary>
         /// 以同步安全方式获取Tags实例
         /// </summary>
         /// <returns></returns>
@@ -136,67 +93,5 @@ namespace WebApiClient
                 return this.tags;
             }
         }
-
-        ///// <summary>
-        ///// 以同步安全方式获取IHttpClient实例
-        ///// </summary>
-        ///// <exception cref="ObjectDisposedException"></exception>
-        ///// <returns></returns>
-        //private IHttpClient GetHttpClientSafeSync()
-        //{
-        //    lock (this.syncRoot)
-        //    {
-        //        if (this.IsDisposed == true)
-        //        {
-        //            throw new ObjectDisposedException(this.GetType().Name);
-        //        }
-
-        //        if (this.httpClient == null)
-        //        {
-        //            this.httpClient = new HttpClient();
-        //        }
-        //        return this.httpClient;
-        //    }
-        //}
-
-        #region IDisposable
-        /// <summary>
-        /// 获取对象是否已释放
-        /// </summary>
-        public bool IsDisposed { get; private set; }
-
-        /// <summary>
-        /// 关闭和释放所有相关资源
-        /// </summary>
-        public void Dispose()
-        {
-            if (this.IsDisposed == false)
-            {
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-            this.IsDisposed = true;
-        }
-
-        /// <summary>
-        /// 析构函数
-        /// </summary>
-        ~HttpApiConfig()
-        {
-            this.Dispose(false);
-        }
-
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        /// <param name="disposing">是否也释放托管资源</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (this.httpClient != null)
-            {
-                this.httpClient.Dispose();
-            }
-        }
-        #endregion
     }
 }

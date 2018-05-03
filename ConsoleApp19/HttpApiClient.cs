@@ -37,18 +37,6 @@ namespace WebApiClient
             }
         }
 
-
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        public void Dispose()
-        {
-            if (this.ApiConfig != null)
-            {
-                this.ApiConfig.Dispose();
-            }
-        }
-
         /// <summary>
         /// 获取或设置一个站点内的默认连接数限制
         /// 这个值在初始化HttpClientHandler时使用
@@ -64,7 +52,7 @@ namespace WebApiClient
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NotSupportedException"></exception>
         /// <returns></returns>
-        public static TInterface Create<TInterface>() where TInterface : class, IDisposable
+        public static TInterface Create<TInterface>() where TInterface : class
         {
             var config = new HttpApiConfig();
             return Create<TInterface>(config);
@@ -79,7 +67,7 @@ namespace WebApiClient
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UriFormatException"></exception>
         /// <returns></returns>
-        public static TInterface Create<TInterface>(string httpHost) where TInterface : class, IDisposable
+        public static TInterface Create<TInterface>(string httpHost) where TInterface : class
         {
             var config = new HttpApiConfig();
             if (string.IsNullOrEmpty(httpHost) == false)

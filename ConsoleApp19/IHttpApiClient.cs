@@ -5,7 +5,7 @@ namespace WebApiClient
     /// <summary>
     /// 定义HttpApi客户端的接口
     /// </summary>
-    public interface IHttpApiClient : IDisposable
+    public interface IHttpApiClient
     {
         /// <summary>
         /// 获取相关配置

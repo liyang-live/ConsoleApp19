@@ -49,9 +49,9 @@ namespace WebApiClient
 
             context.PrepareRequestAsync();
 
-          //  context.ExecRequestAsync();
+            context.ExecRequestAsync();
 
-            return context;
+            return context.Result;
         }
 
         ///// <summary>

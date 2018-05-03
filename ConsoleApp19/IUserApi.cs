@@ -15,10 +15,14 @@ namespace ConsoleApp19
     /// 用户操作接口
     /// </summary>
     //[LogFilter] // 记录请求日志
-    //[HttpHost("http://localhost:9999")] // HttpHost可以在Config传入覆盖    
+    //[HttpHost("http://localhost:8083")] // HttpHost可以在Config传入覆盖    
     //[AutoReturn(EnsureSuccessStatusCode = true)]
     public interface IUserApi : IHttpApiClient
     {
+        // GET {url}?account={account}&password={password}&something={something}
+        [HttpGet("/api/BasicData")]
+        List<Class1> GetDrugAttribute(string drugattribute);
+
         // GET {url}?account={account}&password={password}&something={something}
         [HttpGet]
         [Header("Cookie", "a=1; b=2", EncodeCookie = false)]
@@ -52,8 +56,7 @@ namespace ConsoleApp19
         // Body {"Account":"laojiu","Password":"123456"}
         // Return json或xml内容
         [HttpPost("/webapi/user/UpdateWithJson")]
-        ITask<UserInfo> UpdateWithJsonAsync(
-            [JsonContent("yyyy-MM-dd HH:mm:ss")] UserInfo user);
+        ITask<UserInfo> UpdateWithJsonAsync([JsonContent] UserInfo user);
 
         // POST /webapi/user/UpdateWithXml 
         // Body <?xml version="1.0" encoding="utf-8"?><UserInfo><Account>laojiu</Account><Password>123456</Password></UserInfo>

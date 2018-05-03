@@ -48,6 +48,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\MicroNet-HIS\MicroNet.HIS\DLL\NetHttp\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\FilterAttributes\ApiActionFilterAttribute.cs" />
     <Compile Include="Attributes\FormFieldAttribute.cs" />
     <Compile Include="Attributes\HeaderAttribute.cs" />
     <Compile Include="Attributes\HttpActionAttributes\ApiActionAttribute.cs" />
@@ -79,10 +79,8 @@
     <Compile Include="Attributes\ParameterAttributes\PathQueryAttribute.cs" />
     <Compile Include="Attributes\ParameterAttributes\UrlAttribute.cs" />
     <Compile Include="Attributes\ParameterAttributes\XmlContentAttribute.cs" />
-    <Compile Include="Attributes\ReturnAttributes\ApiReturnAttribute.cs" />
-    <Compile Include="Attributes\ReturnAttributes\AutoReturnAttribute.cs" />
-    <Compile Include="Attributes\ReturnAttributes\JsonReturnAttribute.cs" />
-    <Compile Include="Attributes\ReturnAttributes\XmlReturnAttribute.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Common\JsonHelper.cs" />
     <Compile Include="Contexts\ApiActionContext.cs" />
     <Compile Include="Contexts\ApiActionDescriptor.cs" />
     <Compile Include="Contexts\ApiParameterDescriptor.cs" />
@@ -95,8 +93,6 @@
     <Compile Include="DataAnnotations\IgnoreWhenNullAttribute.cs" />
     <Compile Include="DateTimeFormats.cs" />
     <Compile Include="Defaults\ApiInterceptor.cs" />
-    <Compile Include="Defaults\HttpClient.cs" />
-    <Compile Include="Defaults\HttpHandler.cs" />
     <Compile Include="Defaults\Internal\DefaultHttpClientHandler.Net45.cs" />
     <Compile Include="Defaults\Internal\HttpHandlerOfHttpClientHandler.cs" />
     <Compile Include="Defaults\JsonFormatter.cs" />
@@ -110,7 +106,6 @@
     <Compile Include="Defaults\KeyValueFormats\Converters\SimpleTypeConverter.cs" />
     <Compile Include="Defaults\KeyValueFormats\IConverter.cs" />
     <Compile Include="Defaults\KeyValueFormatter.cs" />
-    <Compile Include="Defaults\XmlFormatter.cs" />
     <Compile Include="Exceptions\HttpApiConfigException.cs" />
     <Compile Include="Exceptions\HttpFailureStatusException.cs" />
     <Compile Include="Exceptions\ResultNotMatchException.cs" />
@@ -151,8 +146,6 @@
     <Compile Include="Internal\PropertyGetter.cs" />
     <Compile Include="Internal\PropertySetter.cs" />
     <Compile Include="Internal\RequestHeader.cs" />
-    <Compile Include="Internal\SocketExtend.cs" />
-    <Compile Include="Internal\TaskObservable.cs" />
     <Compile Include="Internal\Tasks\ApiHandleTask.cs" />
     <Compile Include="Internal\Tasks\ApiRetryTask.cs" />
     <Compile Include="Internal\Tasks\ApiTask.cs" />

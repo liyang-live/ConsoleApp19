@@ -123,10 +123,6 @@ namespace WebApiClient
         private static ApiReturnDescriptor GetReturnDescriptor(MethodInfo method)
         {
             var returnAttribute = method.FindDeclaringAttribute<IApiReturnAttribute>(true);
-            if (returnAttribute == null)
-            {
-                returnAttribute = new AutoReturnAttribute();
-            }
 
             var dataType = method.ReturnType.GetGenericArguments().FirstOrDefault();
             var descriptor = new ApiReturnDescriptor
