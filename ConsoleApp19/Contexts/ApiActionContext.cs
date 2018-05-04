@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -13,10 +15,7 @@ namespace WebApiClient.Contexts
     /// </summary>
     public class ApiActionContext
     {
-        /// <summary>
-        /// Http客户端
-        /// </summary>
-        public static HttpClient client = new HttpClient();
+
 
         /// <summary>
         /// 自定义数据的存储和访问容器
@@ -100,7 +99,7 @@ namespace WebApiClient.Contexts
         {
             try
             {
-                this.ResponseMessage = client.SendAsync(RequestMessage).Result;
+                this.ResponseMessage = RestfulApi.Instance.SendAsync(RequestMessage).Result;
 
                 var json = ResponseMessage.Content.ReadAsStringAsync().Result;
 
@@ -126,7 +125,6 @@ namespace WebApiClient.Contexts
                 return false;
             }
         }
-
 
         /// <summary>
         /// 反序列化xml为对象
@@ -209,6 +207,7 @@ namespace WebApiClient.Contexts
             /// <returns></returns>
             public bool Is(string mediaType)
             {
+
                 return this.contentType != null && this.contentType.StartsWith(mediaType, StringComparison.OrdinalIgnoreCase);
             }
 
@@ -232,4 +231,28 @@ namespace WebApiClient.Contexts
         }
     }
 
+    public sealed class RestfulApi
+    {
+
+        /// <summary>
+        /// Http客户端
+        /// </summary>
+        private static readonly HttpClient Client;
+
+        private static object obj = new object();
+
+        static RestfulApi()
+        {
+            Client = new HttpClient();
+            Client.DefaultRequestHeaders.Connection.Add("keep-alive");
+        }
+
+        public static HttpClient Instance
+        {
+            get
+            {
+                return Client;
+            }
+        }
+    }
 }
